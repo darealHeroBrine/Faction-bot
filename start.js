@@ -136,9 +136,9 @@ client.elevation = message => {
   if (mod_role && message.member.roles.has(mod_role.id)) permlvl = 2;
   const admin_role = message.guild.roles.find('name', config.adminrolename);
   if (admin_role && message.member.roles.has(admin_role.id)) permlvl = 3;
-  const support_role = message.guild.roles.find('name', config.supportTeam);
+  const support_role = message.guild.roles.find('name', process.env.SUPPORT);
   if (support_role && message.member.roles.has(support_role.id)) permlvl = 4;
-  if (message.author.id === config.ownerID) permlvl = 10;
+  if (message.author.id === process.env.OWNER_ID) permlvl = 10;
   return permlvl;
 };
 
@@ -158,4 +158,4 @@ client.on('error', e => {
 
 
 
-client.login(config.token);
+client.login(process.env.BOT_TOKEN);

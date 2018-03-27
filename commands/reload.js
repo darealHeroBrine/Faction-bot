@@ -1,25 +1,21 @@
-exports.run = async (client, message, args, level) => {// eslint-disable-line no-unused-vars
-  if (!args || args.length < 1) return message.reply("Must provide a command to reload. Derp.");
+exports.run = (client, message, args) => {
+ // if(message.author.id !== config.ownerID) return;
+  if(!args || args.size < 1) return message.reply("Must provide a command name to reload.");
+    // the path is relative to the *current folder*, so just ./filename.js
+    delete require.cache[require.resolve(`./${args[0]}.js`)];
+    message.reply(`The command ${args[0]} has been reloaded`);
+  };
 
-  let response = await client.unloadCommand(args[0]);
-  if (response) return message.reply(`Error Unloading: ${response}`);
 
-  response = client.loadCommand(args[0]);
-  if (response) return message.reply(`Error Loading: ${response}`);
-
-  message.reply(`The command \`${args[0]}\` has been reloaded`);
-};
-
-exports.conf = {
-  enabled: true,
-  guildOnly: false,
-  aliases: [],
-  permLevel: "Bot Admin"
-};
-
-exports.help = {
-  name: "reload",
-  category: "System",
-  description: "Reloads a command that\"s been modified.",
-  usage: "reload [command]"
-};
+  exports.conf = {
+    enabled: true,
+    guildOnly: false,
+    aliases: ['rl'],
+    permLevel: 10
+  };
+  
+  exports.help = {
+    name: 'Reload',
+    description: 'This will Reload any command.',
+    usage: 'reload <command>'
+  };
